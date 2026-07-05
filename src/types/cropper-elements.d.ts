@@ -16,8 +16,10 @@ export interface CropperCanvasElement extends HTMLElement {
 
 export interface CropperImageElement extends HTMLElement {
   src: string
-  naturalWidth: number
-  naturalHeight: number
+  $image: {
+    naturalWidth: number
+    naturalHeight: number
+  }
   $ready(callback: (image: HTMLImageElement) => void): Promise<HTMLImageElement>
   $zoom(scale: number, x?: number, y?: number): CropperImageElement
   $center(): CropperImageElement

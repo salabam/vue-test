@@ -79,7 +79,7 @@ function handleReset(): void {
   nextTick(initSelection)
 }
 
-defineExpose({ selectionRef })
+defineExpose({ selectionRef, imageRef })
 </script>
 
 <template>

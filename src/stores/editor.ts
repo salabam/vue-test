@@ -6,7 +6,7 @@ import { DEFAULT_ADJUSTMENTS } from '@/types/operations'
 import { buildFilterString } from '@/utils/filterString'
 import { canvasToBlob, downloadBlob, downloadJson, stripExtension } from '@/utils/download'
 import { replayManifest } from '@/utils/replay'
-import type { CropperSelectionElement } from '@/types/cropper-elements'
+import type { CropperImageElement, CropperSelectionElement } from '@/types/cropper-elements'
 
 export const useEditorStore = defineStore('editor', () => {
   // --- Original source (never mutated) ------------------------------------
@@ -115,11 +115,16 @@ export const useEditorStore = defineStore('editor', () => {
    * Cropper.js selection element and re-applies our filter string during
    * the canvas draw step, so the exported pixels match the live preview.
    */
-  async function exportImage(selectionEl: CropperSelectionElement): Promise<void> {
+  async function exportImage(selectionEl: CropperSelectionElement, imageEl: CropperImageElement): Promise<void> {
     if (!originalFile.value) return
 
     const filterString = cssFilter.value
+    const scaleRatio = imageEl.$image.naturalWidth / imageEl.getBoundingClientRect().width;
+    const realWidth = selectionEl.width * scaleRatio;
+    const realHeight = selectionEl.height * scaleRatio;
     const canvas = await selectionEl.$toCanvas({
+      width: realWidth,
+      height: realHeight,
       beforeDraw(context) {
         context.filter = filterString
       },

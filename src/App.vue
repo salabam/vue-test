@@ -14,8 +14,9 @@ const stageRef = ref<InstanceType<typeof CropperStage> | null>(null)
 
 async function handleExportImage(): Promise<void> {
   const selectionEl = stageRef.value?.selectionRef
+  const imageEl = stageRef.value?.imageRef
   if (!selectionEl) return
-  await store.exportImage(selectionEl)
+  await store.exportImage(selectionEl, imageEl)
 }
 
 function handleExportJson(): void {
